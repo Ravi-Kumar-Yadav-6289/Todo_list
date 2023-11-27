@@ -5,12 +5,41 @@ const page = () => {
 
     const [title, settitle] = useState("")
     const [desc, setdesc] = useState("")
+    const [taskList, addTask] = useState([])
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        addTask([{title, desc},...taskList])
+        setdesc("")
+        settitle("")
+        console.log(taskList)
+        console.log(title)
+        console.log(desc)
+    }
+    let renderTask = "No Tasks pending you are all caught up!"
+
+    if(taskList.length>0){
+        renderTask = taskList.map((t,i)=>{
+            return(
+                <li>
+                    <div className='flex justify-between'>
+                        <h5 className='text-2XL font-semibold'>{t.title}</h5>
+                        <h5 className='text-2XL font-semibold'>{t.desc}</h5>
+                    </div>
+                </li>
+                
+            );
+        })
+    }
+    
+    
+
   return (
     <>
 
     <h1 className='bg-black text-white font-bold text-2xl p-5 text-center'>My TODO list</h1>
 
-    <form>
+    <form onSubmit={handleSubmit}>
         <input
             type='text'
             className='border-4 border-zinc-800 m-5 px-5 py-5'
@@ -34,6 +63,16 @@ const page = () => {
             Add Task
         </button>
     </form>
+
+    <hr/>
+
+    <div className='p-10 m-5 bg-slate-500 '>
+            <ul className='flex justify-between'>
+            <h2 className='text-2XL font-bold'>Title</h2>
+            <h2 className='text-2XL font-bold'>Description</h2>
+            </ul>
+            <ul>{renderTask}</ul>
+    </div>
 
     </>
   )
